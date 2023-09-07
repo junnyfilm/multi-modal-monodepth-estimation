@@ -1,0 +1,70 @@
+USER_NAME: "sungsung"
+
+############################ data options ################################################
+DATASET_NAME: "void"
+DATA_PATH: "/mnt/sda/void_dataset/data" #"/sungsung/void-dataset/data" 
+CROP_HEIGHT: 480
+CROP_WIDTH: 480
+MAX_DEPTH: 10.0
+IMAGE_INTERVAL_RANGE: [5,5]
+
+############################ train options ################################################
+GPU_ID: "0"
+BATCH_SIZE: 4
+WORKERS: 8
+EPOCH: 25
+MAX_LEARNING_RATE: 0.0005 #5e-4
+MIN_LEARNING_RATE: 0.00003 #3e-5
+WEIGHT_DECAY: 0.05
+LAYER_DECAY: 0.9
+
+PRO_BAR: False
+VALIDATION_FREQUENCY: 1
+SAVE_FREQUENCY: 1
+PRINT_FREQUENCY: 1
+
+RESUME_FROM: "/depth_estimation/mim/logs/sungsung_void_0906_203903/train/ckpt/epoch_02_model.ckpt" #"/sungsung/mim/logs/sungsung_void_0905_200019/train/ckpt/epoch_01_model.ckpt" 
+#AUTO_RESUME: True
+SAVE_MODEL: True
+SAVE_RESULT: True
+
+LOSS_LAMBDA1: 100
+LOSS_LAMBDA2: 100
+
+############################ validation options ################################################
+MAX_DEPTH_EVAL: 10.0
+MIN_DEPTH_EVAL: 0.0001 #1e-3
+DO_KB_CROP: 1
+FLIP_TEST: False
+
+SAVE_EVAL_PNGS: False
+SAVE_VISUALIZE: True
+DO_EVALUATE: True
+CHECKPOINT_DIR: ''
+
+############################ model options ################################################
+MODEL_SCALE: 16 # 16, 32
+BACKBONE: "cnn_transformer_multi_scale" # "swin_base_v2",  
+                                        # "cnn_transformer_multi_scale", "cnn_transformer",
+                                        # "resnet_only_multi_scale", "resnet_only"
+DECODER: "decoder_v2" # "decoder_v1", "decoder_v2"
+SWIN:
+  PRETRAINED_SWIN: "weights/swin_v2_base_simmim.pth"
+  USE_CHECKPOINT_SWIN: False
+  DEPTHS: [2, 2, 18, 2]
+  WINDOW_SIZE: [30, 30, 30, 15]
+  PRETRAIN_WINDOW_SIZE: [12, 12, 12, 6]
+  USE_SHIFT: [True, True, False, False]
+  SHIFT_WINDOW_TEST: False
+  SHIFT_SIZE: 2
+  DROP_PATH_RATE: 0.3
+CNN_TRANSFORMER:
+  CNN_MODEL: "resnet50" # "resnet18", "resnet50"
+  TRANSFORMER_FF_DIM: 1024
+RESNET_ONLY:
+  CNN_MODEL: "resnet50" # "resnet18", "resnet50"
+
+# ##decoder
+# NUM_DECONV: 3
+# NUM_FILTERS: [32, 32, 32]
+# DECONV_KERNELS: [2, 2, 2]
